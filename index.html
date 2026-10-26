@@ -2,7 +2,7 @@
 <script>document.documentElement.dir='rtl';document.documentElement.lang='ar';</script>
 <title>فريم تخرج الألفية الثانية</title>
 <meta name="claude:viewport-fit-sides" content="cover">
-<meta name="description" content="ارفع صورتك واحصل عليها بفريم تخرج الدفعة الثانية للألفية الثانية 2026 - مركز الإمام الإسلامي للقرآن الكريم وعلومه">
+<meta name="description" content="ارفع صورتك واحصل عليها بفريم تخريج الدفعة التاسعة عشرة للألفية الثانية 2026 - مركز الإمام الإسلامي مصر">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Aref+Ruqaa:wght@700&family=Cairo:wght@400;600;700;800&family=Reem+Kufi:wght@500;700&display=swap" rel="stylesheet">
@@ -127,7 +127,7 @@
 <header>
   <div class="logo" role="img" aria-label="شعار مركز الإمام الإسلامي للقرآن الكريم وعلومه"></div>
   <h1>الألفية الثانية</h1>
-  <p class="sub">ارفع صورتك واحصل على فريم تخرج الدفعة الثانية — 2026</p>
+  <p class="sub">ارفع صورتك واحصل على فريم تخريج الدفعة التاسعة عشرة — 1448هـ | 2026م</p>
 </header>
 
 <main>
@@ -172,30 +172,33 @@
   </section>
 </main>
 
-<footer>مبارك التخرج 🎓 — مركز الإمام الإسلامي للقرآن الكريم وعلومه · 2026</footer>
+<footer>مبارك التخرج 🎓 — مركز الإمام الإسلامي مصر 🇪🇬 · 2026</footer>
 <div class="toast" id="toast" role="alert"></div>
 
 <script>
 (() => {
   // ===== نصوص الفريم (يمكن تعديلها) =====
   const CFG = {
-    center: 'مركز الإمام الإسلامي',
-    ribbon: 'تخرج الدفعة الثانية',
-    hero:   'الألفية الثانية',
-    year:   '2026',
-    verse:  '﴿ بَلْ هُوَ آيَاتٌ بَيِّنَاتٌ فِي صُدُورِ الَّذِينَ أُوتُوا الْعِلْمَ ﴾',
+    center:  'مركز الإمام الإسلامي',
+    partner: 'مؤسسة نماء',
+    verse:   '﴿ بَلْ هُوَ آيَاتٌ بَيِّنَاتٌ فِي صُدُورِ الَّذِينَ أُوتُوا الْعِلْمَ ﴾',
+    main:    'أنا مشارك في الألفية الثانية',
+    place:   'حُفّاظ مركز الإمام الإسلامي مصر',
+    ribbon:  'تخريج الدفعة التاسعة عشرة',
+    date:    '1448هـ | 2026م',
   };
+
+  // شعار مؤسسة نماء: الصق هنا رابط الصورة (data:image/png;base64,...) — لو فاضي بيتكتب الاسم بدل الشعار
+  const NAMAA_LOGO = '';
 
   const W = 1080, H = 1350;
   const canvas = document.getElementById('cv');
   const ctx = canvas.getContext('2d');
   canvas.width = W; canvas.height = H;
 
-  // Photo fills a wide pointed (mihrab) arch
-  const A = { cx: W / 2, w: 820, r: 508, yTop: 112, yB: 880 };
-  A.yS = A.yTop + Math.sqrt(A.r ** 2 - (A.r - A.w / 2) ** 2);
-  A.cy = (A.yTop + A.yB) / 2;
-  const Y = { ribbon: 905, hero: 1048, verse: 1166, name: 1250 };
+  // Photo sits in a rectangular green & white frame
+  const R = { x: 120, y: 304, w: 840, h: 556 };
+  const Y = { cap: 112, verse: 236, main: 978, place: 1074, ribbon: 1168, date: 1262 };
 
   let img = null, imgUrl = null, zoom = 1, ox = 0, oy = 0, studentName = '';
 
@@ -204,19 +207,6 @@
     const g = c.createLinearGradient(0, y0, 0, y1);
     g.addColorStop(0, '#1a8a57'); g.addColorStop(.5, '#0b6b43'); g.addColorStop(1, '#06502f');
     return g;
-  }
-
-  function archPath(c, d = 0) {
-    const hw = A.w / 2 + d, R = A.r + d;
-    const x0 = A.cx - hw, x1 = A.cx + hw;
-    const a = Math.acos((R - hw) / R);
-    c.beginPath();
-    c.moveTo(x0, A.yB + d);
-    c.lineTo(x0, A.yS);
-    c.arc(x0 + R, A.yS, R, Math.PI, Math.PI + a);
-    c.arc(x1 - R, A.yS, R, -a, 0);
-    c.lineTo(x1, A.yB + d);
-    c.closePath();
   }
 
   function diamond(c, x, y, r) {
@@ -299,18 +289,42 @@
     im.src = LOGO;
   }
 
+  let namaaImg = null;
+  if (NAMAA_LOGO) { const im = new Image(); im.onload = () => { namaaImg = im; draw(); }; im.src = NAMAA_LOGO; }
+
   function clampPan() {
     if (!img) return;
-    const bw = A.w, bh = A.yB - A.yTop;
-    const s = Math.max(bw / img.width, bh / img.height) * zoom;
-    const mx = (img.width * s - bw) / 2, my = (img.height * s - bh) / 2;
+    const s = Math.max(R.w / img.width, R.h / img.height) * zoom;
+    const mx = (img.width * s - R.w) / 2, my = (img.height * s - R.h) / 2;
     ox = Math.max(-mx, Math.min(mx, ox));
     oy = Math.max(-my, Math.min(my, oy));
   }
 
   // ---------- frame ----------
+  function egyptFlag(c, x, y, w, h) {
+    c.fillStyle = '#ce1126'; c.fillRect(x, y, w, h / 3);
+    c.fillStyle = '#ffffff'; c.fillRect(x, y + h / 3, w, h / 3);
+    c.fillStyle = '#000000'; c.fillRect(x, y + h * 2 / 3, w, h / 3);
+    c.lineWidth = 1; c.strokeStyle = 'rgba(0,0,0,.25)'; c.strokeRect(x, y, w, h);
+    c.fillStyle = '#c09300'; c.beginPath(); c.arc(x + w / 2, y + h / 2, h * .13, 0, Math.PI * 2); c.fill();
+  }
+
+  // white pill with a green outline, text centered on (cx, y)
+  function pill(c, text, cx, y, flag) {
+    const fw = flag ? 48 : 0, fh = 32, gap = flag ? 16 : 0;
+    const pw = c.measureText(text).width, tw = pw + fw + gap + 90, ph = 68;
+    c.save(); shadow(c, 12, 4);
+    c.beginPath(); c.roundRect(cx - tw / 2, y - ph / 2, tw, ph, ph / 2);
+    c.fillStyle = '#ffffff'; c.fill();
+    c.restore();
+    c.lineWidth = 3; c.strokeStyle = green(c, y - 34, y + 34); c.stroke();
+    const px = cx + (fw + gap) / 2;
+    c.fillStyle = '#0b6b43'; c.fillText(text, px, y + 2);
+    if (flag) egyptFlag(c, px - pw / 2 - gap - fw, y - fh / 2, fw, fh);
+  }
+
   function draw() {
-    const c = ctx, { cx, cy } = A;
+    const c = ctx, cx = W / 2;
     c.save();
     c.direction = 'rtl'; c.textAlign = 'center'; c.textBaseline = 'middle';
 
@@ -319,16 +333,14 @@
     bg.addColorStop(0, '#f7f6f0'); bg.addColorStop(1, '#eef3ec');
     c.fillStyle = bg; c.fillRect(0, 0, W, H);
     if (bgImg) {
-      // whole plate, faint, for the misty texture around the arch
       c.globalAlpha = .55;
       c.drawImage(bgImg, 560, 0, 560, 330, 0, 0, W, 640);
       c.globalAlpha = 1;
-      // the mosque itself: plate x 540–1280, y 0–290 → full width, standing behind hero and verse
-      const bandH = 290 * W / 740;
-      c.drawImage(bgImg, 540, 0, 740, 290, 0, 880, W, bandH);
-      const fade = c.createLinearGradient(0, 880, 0, 960);
+      const top = R.y + R.h - 20, bandH = 290 * W / 740;
+      c.drawImage(bgImg, 540, 0, 740, 290, 0, top, W, bandH);
+      const fade = c.createLinearGradient(0, top, 0, top + 80);
       fade.addColorStop(0, '#f2f4ee'); fade.addColorStop(1, 'rgba(242,244,238,0)');
-      c.fillStyle = fade; c.fillRect(0, 880, W, 80);
+      c.fillStyle = fade; c.fillRect(0, top, W, 80);
     }
 
     // borders + corner medallions
@@ -340,104 +352,111 @@
       diamond(c, x, y, 16); c.fillStyle = green(c, y - 16, y + 16); c.fill();
     }
 
-    // logo — top right corner (falls back to the center name while it loads)
+    // top right: center logo (falls back to the center name while it loads)
     c.save(); shadow(c);
     if (logoTint) {
-      const lh = 140, lw = lh * logoTint.width / logoTint.height;
-      c.drawImage(logoTint, 885 - lw / 2, 64, lw, lh);
+      const lh = 120, lw = lh * logoTint.width / logoTint.height;
+      c.drawImage(logoTint, 880 - lw / 2, 62, lw, lh);
     } else {
-      c.font = '700 34px "Reem Kufi", Amiri, serif';
-      c.fillStyle = green(c, 110, 150); c.fillText(CFG.center, 885, 130);
+      fitFont(c, CFG.center, 700, 34, '"Reem Kufi", Amiri, serif', 250);
+      c.fillStyle = green(c, 110, 150); c.fillText(CFG.center, 880, 131);
+    }
+    // top left: Namaa logo, or its name until the logo is added
+    if (namaaImg) {
+      const s = Math.min(250 / namaaImg.width, 120 / namaaImg.height);
+      const lw = namaaImg.width * s, lh = namaaImg.height * s;
+      c.drawImage(namaaImg, 200 - lw / 2, 122 - lh / 2, lw, lh);
+    } else {
+      fitFont(c, CFG.partner, 700, 46, '"Reem Kufi", Cairo, serif', 250);
+      c.fillStyle = green(c, 95, 150); c.fillText(CFG.partner, 200, 122);
     }
     c.restore();
 
-    // year — top left corner
-    cap(c, 195, 104, 40);
-    c.save(); shadow(c);
-    c.font = '700 82px "Reem Kufi", Cairo, serif'; c.fillStyle = green(c, 140, 210);
-    c.fillText(CFG.year, 195, 172);
+    // top center: graduation cap, then the verse
+    cap(c, cx, Y.cap, 52);
+    fitFont(c, CFG.verse, 400, 44, 'Amiri, serif', 860);
+    c.save(); shadow(c, 10, 0, 'rgba(255,255,255,.95)');
+    c.fillStyle = '#0b5a39'; c.fillText(CFG.verse, cx, Y.verse);
     c.restore();
 
-    // mihrab arch — photo fills the inside
-    const bw = A.w, bh = A.yB - A.yTop;
+    // photo frame: green band, white band, fine green line
+    c.save(); shadow(c, 22, 8, 'rgba(0,40,20,.28)');
+    c.fillStyle = green(c, R.y - 22, R.y + R.h + 22); c.fillRect(R.x - 22, R.y - 22, R.w + 44, R.h + 44);
+    c.restore();
+    c.fillStyle = '#ffffff'; c.fillRect(R.x - 12, R.y - 12, R.w + 24, R.h + 24);
     c.save();
-    archPath(c, 0); c.clip();
+    c.beginPath(); c.rect(R.x, R.y, R.w, R.h); c.clip();
+    const pcx = R.x + R.w / 2, pcy = R.y + R.h / 2;
     if (img) {
-      const s = Math.max(bw / img.width, bh / img.height) * zoom;
+      const s = Math.max(R.w / img.width, R.h / img.height) * zoom;
       const dw = img.width * s, dh = img.height * s;
-      c.drawImage(img, cx - dw / 2 + ox, cy - dh / 2 + oy, dw, dh);
+      c.drawImage(img, pcx - dw / 2 + ox, pcy - dh / 2 + oy, dw, dh);
     } else {
-      c.fillStyle = '#e9f3ed'; c.fillRect(cx - bw / 2, A.yTop, bw, bh);
+      c.fillStyle = '#e9f3ed'; c.fillRect(R.x, R.y, R.w, R.h);
       c.fillStyle = 'rgba(11,107,67,.16)';
-      c.beginPath(); c.arc(cx, cy - 10, 125, 0, Math.PI * 2); c.fill();
-      c.beginPath(); c.ellipse(cx, cy + 390, 290, 260, 0, Math.PI, 0); c.fill();
+      c.beginPath(); c.arc(pcx, pcy - 40, 120, 0, Math.PI * 2); c.fill();
+      c.beginPath(); c.ellipse(pcx, pcy + 330, 280, 250, 0, Math.PI, 0); c.fill();
       c.font = '700 40px Cairo, sans-serif'; c.fillStyle = '#0b6b43';
-      c.fillText('اضغط هنا لرفع صورتك', cx, cy - 215);
+      c.fillText('اضغط هنا لرفع صورتك', pcx, R.y + 60);
     }
     c.restore();
-    c.save(); shadow(c, 20, 6, 'rgba(0,40,20,.25)');
-    archPath(c, 0); c.lineWidth = 14; c.strokeStyle = green(c, A.yTop, A.yB); c.stroke();
-    c.restore();
-    archPath(c, 18); c.lineWidth = 3; c.strokeStyle = green(c, A.yTop, A.yB); c.stroke();
+    c.lineWidth = 2; c.strokeStyle = green(c, R.y, R.y + R.h); c.strokeRect(R.x - 6, R.y - 6, R.w + 12, R.h + 12);
+    for (const [x, y] of [[R.x - 17, R.y - 17], [R.x + R.w + 17, R.y - 17], [R.x - 17, R.y + R.h + 17], [R.x + R.w + 17, R.y + R.h + 17]]) {
+      diamond(c, x, y, 10); c.fillStyle = '#ffffff'; c.fill();
+    }
 
-    // finial: ball + crescent above the arch tip
-    const apex = A.yS - Math.sqrt((A.r + 18) ** 2 - (A.r - A.w / 2) ** 2);
-    c.save(); shadow(c, 8, 2);
-    c.beginPath(); c.arc(cx, apex - 2, 7, 0, Math.PI * 2); c.fillStyle = green(c, apex - 9, apex + 5); c.fill();
-    crescent(c, cx, apex - 30, 21);
+    // optional student name, sitting on the frame's bottom edge
+    if (studentName) {
+      fitFont(c, studentName, 700, 40, 'Cairo, sans-serif', 600);
+      pill(c, studentName, cx, R.y + R.h + 22, false);
+    }
+
+    // main phrase — soft white halo keeps it crisp over the mosque
+    fitFont(c, CFG.main, 700, 104, '"Aref Ruqaa", Amiri, serif', 940);
+    c.save(); shadow(c, 18, 0, 'rgba(255,255,255,.95)');
+    c.fillStyle = green(c, Y.main - 60, Y.main + 45); c.fillText(CFG.main, cx, Y.main);
+    c.restore();
+    c.save(); shadow(c, 10, 5, 'rgba(0,40,20,.22)');
+    c.fillStyle = green(c, Y.main - 60, Y.main + 45); c.fillText(CFG.main, cx, Y.main);
     c.restore();
 
-    // ribbon
-    const top = Y.ribbon - 48, bot = Y.ribbon + 48, mid = Y.ribbon, rx0 = cx - 432, rx1 = cx + 432, dy = 24;
+    // center name + Egypt flag (flag drawn, since flag emoji don't render on Windows)
+    fitFont(c, CFG.place, 700, 40, 'Cairo, sans-serif', 680);
+    pill(c, CFG.place, cx, Y.place, true);
+
+    // graduation title ribbon
+    const top = Y.ribbon - 40, bot = Y.ribbon + 40, mid = Y.ribbon, rx0 = cx - 400, rx1 = cx + 400, dy = 20;
     for (const side of [-1, 1]) {
       const e = side < 0 ? rx0 : rx1;
       c.save(); shadow(c, 12, 4);
       c.fillStyle = '#0b6b43';
       c.beginPath();
-      c.moveTo(e - side * 40, top + dy); c.lineTo(e + side * 52, top + dy);
-      c.lineTo(e + side * 26, mid + dy); c.lineTo(e + side * 52, bot + dy);
-      c.lineTo(e - side * 40, bot + dy); c.closePath(); c.fill();
+      c.moveTo(e - side * 36, top + dy); c.lineTo(e + side * 46, top + dy);
+      c.lineTo(e + side * 22, mid + dy); c.lineTo(e + side * 46, bot + dy);
+      c.lineTo(e - side * 36, bot + dy); c.closePath(); c.fill();
       c.restore();
       c.fillStyle = '#063d24';
-      c.beginPath(); c.moveTo(e, bot); c.lineTo(e - side * 40, bot + dy); c.lineTo(e - side * 40, bot); c.closePath(); c.fill();
+      c.beginPath(); c.moveTo(e, bot); c.lineTo(e - side * 36, bot + dy); c.lineTo(e - side * 36, bot); c.closePath(); c.fill();
     }
     c.save(); shadow(c, 14, 5);
-    c.fillStyle = '#ffffff'; c.fillRect(rx0, top, rx1 - rx0, bot - top);
+    c.fillStyle = green(c, top, bot); c.fillRect(rx0, top, rx1 - rx0, bot - top);
     c.restore();
-    c.strokeStyle = green(c, top, bot); c.lineWidth = 4;
-    c.strokeRect(rx0, top, rx1 - rx0, bot - top);
-    c.lineWidth = 1.5; c.strokeRect(rx0 + 10, top + 9, rx1 - rx0 - 20, bot - top - 18);
-    c.font = '700 60px Amiri, serif'; c.fillStyle = green(c, top, bot);
+    c.strokeStyle = 'rgba(255,255,255,.85)'; c.lineWidth = 1.5; c.strokeRect(rx0 + 9, top + 8, rx1 - rx0 - 18, bot - top - 16);
+    fitFont(c, CFG.ribbon, 700, 56, 'Amiri, serif', 720); c.fillStyle = '#ffffff';
     c.fillText(CFG.ribbon, cx, mid + 2);
 
-    // hero calligraphy — soft white halo keeps it crisp over the mosque
-    fitFont(c, CFG.hero, 700, 148, '"Aref Ruqaa", Amiri, serif', 920);
-    c.save(); shadow(c, 18, 0, 'rgba(255,255,255,.95)');
-    c.fillStyle = green(c, Y.hero - 75, Y.hero + 55); c.fillText(CFG.hero, cx, Y.hero);
-    c.restore();
-    c.save(); shadow(c, 10, 5, 'rgba(0,40,20,.22)');
-    c.fillStyle = green(c, Y.hero - 75, Y.hero + 55); c.fillText(CFG.hero, cx, Y.hero);
-    c.restore();
-
-    // verse
-    fitFont(c, CFG.verse, 400, 40, 'Amiri, serif', 900);
-    c.save(); shadow(c, 10, 0, 'rgba(255,255,255,.95)');
-    c.fillStyle = '#0b5a39'; c.fillText(CFG.verse, cx, Y.verse);
-    c.restore();
-
-    // student name plate
-    if (studentName) {
-      fitFont(c, studentName, 700, 46, 'Cairo, sans-serif', 760);
-      const tw = c.measureText(studentName).width + 90, ph = 70;
-      c.save(); shadow(c, 12, 4);
-      c.beginPath(); c.roundRect(cx - tw / 2, Y.name - ph / 2, tw, ph, ph / 2);
-      c.fillStyle = '#ffffff'; c.fill();
-      c.restore();
-      c.lineWidth = 3; c.strokeStyle = green(c, Y.name - 35, Y.name + 35); c.stroke();
-      c.fillStyle = '#0b6b43'; c.fillText(studentName, cx, Y.name + 2);
-    } else {
-      divider(c, cx, Y.name, 210);
+    // date
+    c.font = '700 40px Cairo, sans-serif';
+    const dw = c.measureText(CFG.date).width;
+    c.fillStyle = '#0b5a39'; c.fillText(CFG.date, cx, Y.date);
+    c.save();
+    c.strokeStyle = c.fillStyle = green(c, Y.date - 10, Y.date + 10); c.lineWidth = 2.5;
+    for (const side of [-1, 1]) {
+      const x0 = cx + side * (dw / 2 + 24), x1 = cx + side * (dw / 2 + 150);
+      c.beginPath(); c.moveTo(x0, Y.date); c.lineTo(x1, Y.date); c.stroke();
+      diamond(c, x1 + side * 10, Y.date, 9); c.fill();
     }
+    c.restore();
     c.restore();
   }
 
@@ -542,8 +561,8 @@
   // wait for web fonts before drawing text on the canvas
   draw();
   Promise.all([
-    '700 148px "Aref Ruqaa"', '700 60px Amiri', '400 40px Amiri', '700 82px "Reem Kufi"', '700 46px Cairo',
-  ].map(f => document.fonts.load(f, 'الألفية الثانية 2026 ﴿﴾'))).catch(() => {}).finally(draw);
+    '700 104px "Aref Ruqaa"', '700 56px Amiri', '400 44px Amiri', '700 46px "Reem Kufi"', '700 40px Cairo',
+  ].map(f => document.fonts.load(f, 'أنا مشارك في الألفية الثانية 1448هـ 2026م ﴿﴾'))).catch(() => {}).finally(draw);
 })();
 </script>
 
