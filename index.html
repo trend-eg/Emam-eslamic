@@ -116,7 +116,7 @@
   }
   .toast.show{opacity:1; transform:none}
 </style>
-<a class="credit" href="https://www.facebook.com/trend.agency.eg" target="_blank" rel="noopener" aria-label="تنفيذ شركة ترند للتسويق الإلكتروني — صفحة فيسبوك">
+<a class="credit" id="creditLink" href="https://www.facebook.com/trend.agency.eg" target="_blank" rel="noopener" aria-label="تنفيذ شركة ترند للتسويق الإلكتروني — صفحة فيسبوك">
   <span class="credit-label">تنفيذ</span>
   <span class="credit-brand" dir="ltr">
     <span class="tr-mark"><img alt="" src="data:image/png;base64,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"></span>
@@ -566,4 +566,23 @@
 })();
 </script>
 
+<script>
+// على الموبايل: target=_blank بيتمنع جوه متصفحات التطبيقات (فيسبوك/واتساب/إنستجرام) وجوه الـ iframe،
+// فبنفتح صفحة الفيسبوك في نفس الصفحة بدل تاب جديد.
+(function () {
+  var a = document.getElementById('creditLink');
+  if (!a) return;
+  var mobile = /Android|iPhone|iPad|iPod|FBAN|FBAV|Instagram|Line|WhatsApp/i.test(navigator.userAgent)
+            || (window.matchMedia && matchMedia('(pointer:coarse)').matches);
+  a.addEventListener('click', function (e) {
+    var url = a.href;
+    if (!mobile) {
+      var w = window.open(url, '_blank');
+      if (w) { try { w.opener = null; } catch (_) {} e.preventDefault(); return; }
+    }
+    e.preventDefault();
+    try { window.top.location.href = url; } catch (_) { window.location.href = url; }
+  });
+})();
+</script>
 </body></html>
